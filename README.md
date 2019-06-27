@@ -10,13 +10,14 @@ This uses Maven, so you would simply compile this by doing this at the root of t
 Currently only Java 1.8 is supported. To run this, you would do the following:
 
 ```
-java -jar dox-kafka-exporter-1.0.1-jar-with-dependencies.jar --bootstrap-servers=<kafka-hostname>:9092 --port <port>
+java -jar kafka_status_exporter-1.0.1-jar-with-dependencies.jar --bootstrap-servers=<kafka-hostname>:9092 --port <port>
 ```
 
 You can also run this to print out the help usage:
 
 ```
-java -jar dox-kafka-exporter-1.0.1-jar-with-dependencies.jar --help
+java -jar kafka_status_exporter-1.0.1-jar-with-dependencies.jar --help
+```
 
 ### TODO
 
