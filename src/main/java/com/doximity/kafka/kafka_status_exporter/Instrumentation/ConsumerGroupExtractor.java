@@ -116,7 +116,7 @@ public class ConsumerGroupExtractor {
 
             for (ConsumerGroupIdentifier group : consumerIds) {
                 String grp = String.valueOf(group);
-                if (grp.startsWith("console")) {
+                if (grp.contains("console-consumer")) {
                     continue;
                 }
 
@@ -153,6 +153,9 @@ public class ConsumerGroupExtractor {
                         break;
                 }
             }
+
+            adminClient.close();
+
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e.getMessage(), e);
         }
