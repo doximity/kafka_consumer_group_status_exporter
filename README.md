@@ -3,7 +3,7 @@ Kafka status exporter for Prometheus.
 
 ### Compiling
 
-This uses Maven, so you would simply compile this by doing this at the root of the project: `mvn package`
+This uses Maven, so you would simply compile this by doing this at the root of the project: `mvn clean package`
 
 ### Running
 
