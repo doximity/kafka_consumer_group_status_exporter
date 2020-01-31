@@ -13,17 +13,11 @@ import org.apache.kafka.clients.admin.DescribeConsumerGroupsResult;
 import org.apache.kafka.clients.admin.ListConsumerGroupsResult;
 import org.apache.kafka.common.ConsumerGroupState;
 import org.apache.kafka.common.KafkaFuture;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
+
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 
 public class ConsumerGroupExtractor {
-
     /**
      * Returns an AdminClient object that is connected to the Kafka environment.
      *
@@ -31,7 +25,7 @@ public class ConsumerGroupExtractor {
      *
      * @return The AdminClient object to use to establish a session into the Kafka environment.
      */
-    private static AdminClient createAdminClient(String bootstrapServers) {
+    protected static AdminClient createAdminClient(String bootstrapServers) {
         Properties props = new Properties();
         props.put(CommonClientConfigs.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         return AdminClient.create(props);
@@ -70,9 +64,9 @@ public class ConsumerGroupExtractor {
      * @throws ExecutionException
      * @throws InterruptedException
      */
-    private static ConsumerGroupState extractConsumerGroupStatus(AdminClient adminClient, String cgId) throws ExecutionException, InterruptedException {
-
+    public static ConsumerGroupState extractConsumerGroupStatus(AdminClient adminClient, String cgId) throws ExecutionException, InterruptedException {
         DescribeConsumerGroupsResult describeConsumerGroupResults = null;
+
         try {
             describeConsumerGroupResults = adminClient.describeConsumerGroups(Collections.singletonList(cgId));
         } catch (Exception e) {
@@ -91,13 +85,13 @@ public class ConsumerGroupExtractor {
      * Lists all Consumer Groups that are currently in the environment and extracts their ID and State into a Hashtable.
      *
      * @param bootstrapServers The Kafka brokers to connect to. E.g. "kafka1:9092,kafka2:9092,kafka3:9092"
-     * @return Returns a Hashtable of each Consumer Group ID and their State as a value.
      * @throws ExecutionException
      * @throws InterruptedException
+     * @return Returns a Hashtable of each Consumer Group ID and their State as a value.
      */
     public static Map<String, Integer> getConsumerGroupResults(String bootstrapServers) throws ExecutionException, InterruptedException {
-
         Map<String, Integer> consumerGroupsResultsFinal = null;
+
         try {
             AdminClient adminClient = createAdminClient(bootstrapServers);
 
@@ -142,7 +136,7 @@ public class ConsumerGroupExtractor {
                     case "CompletingRebalance":
                         consumerGroupsResultsFinal.put(grp, 3);
                         break;
-                    case "PreparingBalance":
+                    case "PreparingRebalance":
                         consumerGroupsResultsFinal.put(grp, 2);
                         break;
                     case "Empty":
@@ -151,6 +145,8 @@ public class ConsumerGroupExtractor {
                     case "Dead":
                         consumerGroupsResultsFinal.put(grp, 0);
                         break;
+                    default:
+                        consumerGroupsResultsFinal.put(grp, 99);
                 }
             }
 

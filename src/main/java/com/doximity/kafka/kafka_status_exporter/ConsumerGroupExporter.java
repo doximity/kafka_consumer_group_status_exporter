@@ -18,7 +18,6 @@ import java.util.concurrent.ExecutionException;
 
 @CommandLine.Command(name = "ConsumerGroupExporter")
 public class ConsumerGroupExporter implements Runnable {
-
     @Option(names = {"-b", "--bootstrap-servers"}, required = true, description = "Kafka brokers to connect to.")
     String bootstrapServers;
 
@@ -29,7 +28,7 @@ public class ConsumerGroupExporter implements Runnable {
     boolean usageHelpRequested;
 
     // Creating and registering the Gauge metric we'll be using
-    private static final Gauge cgStatus = Gauge.build()
+    protected static final Gauge cgStatus = Gauge.build()
             .name("kafka_consumer_group_status")
             .labelNames("group_id")
             .help("Reports Consumer Group status.").register();
@@ -38,7 +37,6 @@ public class ConsumerGroupExporter implements Runnable {
 
     // The function that main will call after a successful parsing of the command line.
     public void run() {
-
         try {
             logger.info("Starting Prometheus HTTP Server on port " + port);
             HTTPServer server = new HTTPServer(port);
@@ -49,7 +47,6 @@ public class ConsumerGroupExporter implements Runnable {
         Map<String, Integer> consumerGroupsResultsFinal = null;
 
         while (true) {
-
             try {
                 consumerGroupsResultsFinal = ConsumerGroupExtractor.getConsumerGroupResults(bootstrapServers);
 
@@ -64,7 +61,6 @@ public class ConsumerGroupExporter implements Runnable {
                 e.printStackTrace();
             }
         }
-
     }
 
     /**
@@ -74,8 +70,6 @@ public class ConsumerGroupExporter implements Runnable {
      * @param args The args passed through the command line that picocli will parse.
      */
     public static void main(String[] args) {
-
         new CommandLine(new ConsumerGroupExporter()).parseWithHandler(new CommandLine.RunLast(), System.err, args);
-
     }
 }
