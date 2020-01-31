@@ -28,6 +28,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class ConsumerGroupExporterTest {
     String testTopic = "test_topic";
     HTTPServer httpServer;
+    KafkaConsumer<String, String> consumer;
     Integer port = 1234;
 
     private static final Logger logger = LoggerFactory.getLogger(ConsumerGroupExporterTest.class);
@@ -36,16 +37,16 @@ public class ConsumerGroupExporterTest {
     @RegisterExtension
     public static final SharedKafkaTestResource sharedKafkaTestResource = new SharedKafkaTestResource().withBrokers(1);
 
-    // Set up bootStrapServers connection string and consumer object to be used by all test cases.
-    String bootStrapServers = sharedKafkaTestResource.getKafkaConnectString();
-    KafkaConsumer<String, String> consumer = TestConsumer.createConsumer(bootStrapServers);
-
     /**
      * Simple accessor to the getKafkatestUtils object to interact with the test cluster.
      * @return Returns a SharedKafkaTestResource.getKafkaTestUtils accessor object.
      */
     protected KafkaTestUtils getKafkaTestUtils() {
         return sharedKafkaTestResource.getKafkaTestUtils();
+    }
+
+    protected String getBootStrapServers() {
+        return sharedKafkaTestResource.getKafkaConnectString();
     }
 
     public static boolean contains(final int[] arr, final int key) {
@@ -61,7 +62,8 @@ public class ConsumerGroupExporterTest {
         }
     }
 
-    void startConsumer() {
+    void startConsumer(String bootStrapServers) {
+        consumer = TestConsumer.createConsumer(bootStrapServers);
         consumer.subscribe(Arrays.asList(testTopic));
 
         // We need to call poll() multiple times to give time for the group to be registered with the group coordinator.
@@ -96,13 +98,14 @@ public class ConsumerGroupExporterTest {
     @Test
     void getConsumerGroupResultsTest() throws InterruptedException, ExecutionException, IOException {
         int[] statusCodes = {0,1,2,3,4,5,99};
+        String bootStrapServers = getBootStrapServers();
         Gauge cgStatus = Gauge.build()
                 .name("kafka_consumer_group_status")
                 .labelNames("group_id")
                 .help("Reports Consumer Group status.").register();
 
         getKafkaTestUtils().createTopic(testTopic, 1, (short) 1);
-        startConsumer();
+        startConsumer(bootStrapServers);
         startHTTPServer();
 
         Map<String, Integer> consumerGroupsResultsFinal = null;

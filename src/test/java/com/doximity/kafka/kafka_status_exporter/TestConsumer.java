@@ -4,10 +4,11 @@ import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.serialization.StringDeserializer;
 
-import java.time.Duration;
-import java.util.Arrays;
 import java.util.Properties;
 
+/**
+ * Simple Kafka consumer that can be used to pass between test cases in the future.
+ */
 public class TestConsumer {
     final static String testGroupID = "exporter-cg-group-id";
 
