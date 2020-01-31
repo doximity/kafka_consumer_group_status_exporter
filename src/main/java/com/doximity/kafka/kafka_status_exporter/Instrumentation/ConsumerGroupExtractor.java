@@ -22,7 +22,6 @@ public class ConsumerGroupExtractor {
      * Returns an AdminClient object that is connected to the Kafka environment.
      *
      * @param bootstrapServers The Kafka brokers to connect to. E.g. "kafka1:9092,kafka2:9092,kafka3:9092"
-     *
      * @return The AdminClient object to use to establish a session into the Kafka environment.
      */
     protected static AdminClient createAdminClient(String bootstrapServers) {
@@ -85,9 +84,9 @@ public class ConsumerGroupExtractor {
      * Lists all Consumer Groups that are currently in the environment and extracts their ID and State into a Hashtable.
      *
      * @param bootstrapServers The Kafka brokers to connect to. E.g. "kafka1:9092,kafka2:9092,kafka3:9092"
+     * @return Returns a Hashtable of each Consumer Group ID and their State as a value.
      * @throws ExecutionException
      * @throws InterruptedException
-     * @return Returns a Hashtable of each Consumer Group ID and their State as a value.
      */
     public static Map<String, Integer> getConsumerGroupResults(String bootstrapServers) throws ExecutionException, InterruptedException {
         Map<String, Integer> consumerGroupsResultsFinal = null;

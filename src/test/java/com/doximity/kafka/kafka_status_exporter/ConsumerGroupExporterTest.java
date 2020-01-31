@@ -22,6 +22,9 @@ import java.util.concurrent.ExecutionException;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/**
+ * Tests Prometheus HTTP Server as well as backend Kafka calls to get consumer groups and their status.
+ */
 public class ConsumerGroupExporterTest {
     String testTopic = "test_topic";
     HTTPServer httpServer;
@@ -29,17 +32,18 @@ public class ConsumerGroupExporterTest {
 
     private static final Logger logger = LoggerFactory.getLogger(ConsumerGroupExporterTest.class);
 
-    // Start Kafka Environment that will be used to test all functions
+    // Creates and stands up an internal test kafka cluster to be shared across test cases within this test class.
     @RegisterExtension
     public static final SharedKafkaTestResource sharedKafkaTestResource = new SharedKafkaTestResource().withBrokers(1);
+
+    // Set up bootStrapServers connection string and consumer object to be used by all test cases.
     String bootStrapServers = sharedKafkaTestResource.getKafkaConnectString();
     KafkaConsumer<String, String> consumer = TestConsumer.createConsumer(bootStrapServers);
 
-    Gauge cgStatus = Gauge.build()
-            .name("kafka_consumer_group_status")
-            .labelNames("group_id")
-            .help("Reports Consumer Group status.").register();
-
+    /**
+     * Simple accessor to the getKafkatestUtils object to interact with the test cluster.
+     * @return Returns a SharedKafkaTestResource.getKafkaTestUtils accessor object.
+     */
     protected KafkaTestUtils getKafkaTestUtils() {
         return sharedKafkaTestResource.getKafkaTestUtils();
     }
@@ -66,6 +70,12 @@ public class ConsumerGroupExporterTest {
         }
     }
 
+    /**
+     * Simple function to parse the output of the Prometheus HTTP Server
+     * @param suffix Any suffix we want to provide to focus on a specific label
+     * @return Returns the response from the Prometheus HTTP Server
+     * @throws IOException
+     */
     public String request(String suffix) throws IOException {
         String url = "http://localhost:1234/metrics" + suffix;
         URLConnection connection = new URL(url).openConnection();
@@ -77,9 +87,19 @@ public class ConsumerGroupExporterTest {
         return s.hasNext() ? s.next() : "";
     }
 
+    /**
+     * Test the functionality of the Prometheus HTTP Server as well as the ConsumerGroupExtractor methods that populate it.
+     * @throws InterruptedException
+     * @throws ExecutionException
+     * @throws IOException
+     */
     @Test
     void getConsumerGroupResultsTest() throws InterruptedException, ExecutionException, IOException {
         int[] statusCodes = {0,1,2,3,4,5,99};
+        Gauge cgStatus = Gauge.build()
+                .name("kafka_consumer_group_status")
+                .labelNames("group_id")
+                .help("Reports Consumer Group status.").register();
 
         getKafkaTestUtils().createTopic(testTopic, 1, (short) 1);
         startConsumer();
