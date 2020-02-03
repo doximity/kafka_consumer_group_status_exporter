@@ -3,10 +3,13 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
     <groupId>com.doximity.kafka</groupId>
     <artifactId>kafka_status_exporter</artifactId>
-    <version>0.2.0</version>
+    <version>0.3.0</version>
     <build>
         <plugins>
             <plugin>
@@ -40,11 +43,21 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.22.2</version>
+                <configuration>
+                    <includes>
+                        <include>**/*Test.class</include>
+                        <include>**/*test.class</include>
+                    </includes>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
     <dependencies>
-
         <!-- https://mvnrepository.com/artifact/org.apache.kafka/kafka-clients -->
         <dependency>
             <groupId>org.apache.kafka</groupId>
@@ -57,7 +70,6 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
             <version>1.7.25</version>
-            <!--<scope>test</scope>-->
         </dependency>
 
         <!-- The client -->
@@ -67,47 +79,82 @@
             <version>0.6.0</version>
         </dependency>
 
-        <!-- Hotspot JVM metrics-->
+        <!-- Hotspot JVM metrics -->
         <dependency>
             <groupId>io.prometheus</groupId>
             <artifactId>simpleclient_hotspot</artifactId>
             <version>0.6.0</version>
         </dependency>
 
-        <!-- Exposition HTTPServer-->
+        <!-- Exposition HTTPServer -->
         <dependency>
             <groupId>io.prometheus</groupId>
             <artifactId>simpleclient_httpserver</artifactId>
             <version>0.6.0</version>
         </dependency>
 
-        <!-- Pushgateway exposition-->
+        <!-- Pushgateway exposition -->
         <dependency>
             <groupId>io.prometheus</groupId>
             <artifactId>simpleclient_pushgateway</artifactId>
             <version>0.6.0</version>
         </dependency>
 
-        <!-- Servlet-->
+        <!-- Servlet -->
         <dependency>
             <groupId>io.prometheus</groupId>
             <artifactId>simpleclient_servlet</artifactId>
             <version>0.6.0</version>
         </dependency>
 
-        <!-- Jetty Server-->
+        <!-- Jetty Server -->
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-servlet</artifactId>
             <version>9.4.15.v20190215</version>
         </dependency>
 
-        <!-- PicoCLI-->
+        <!-- PicoCLI -->
         <dependency>
             <groupId>info.picocli</groupId>
             <artifactId>picocli</artifactId>
             <version>3.9.6</version>
         </dependency>
 
+        <!-- JUnit5 -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>5.6.0</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Use Salesforce Kafka-JUnit5 -->
+        <dependency>
+            <groupId>com.salesforce.kafka.test</groupId>
+            <artifactId>kafka-junit5</artifactId>
+            <version>3.2.0</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Include Kafka 2.1.x for Kafka-JUnit5 -->
+        <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka_2.11</artifactId>
+            <version>2.1.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka-clients</artifactId>
+            <version>2.1.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka-clients</artifactId>
+            <version>2.1.0</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 </project>
