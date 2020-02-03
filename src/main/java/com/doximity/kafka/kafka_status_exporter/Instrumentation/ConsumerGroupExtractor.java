@@ -14,6 +14,7 @@ import org.apache.kafka.clients.admin.ListConsumerGroupsResult;
 import org.apache.kafka.common.ConsumerGroupState;
 import org.apache.kafka.common.KafkaFuture;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -94,7 +95,7 @@ public class ConsumerGroupExtractor {
      * @throws ExecutionException
      * @throws InterruptedException
      */
-    public static Map<String, Integer> getConsumerGroupResults(String bootstrapServers) throws ExecutionException, InterruptedException {
+    public static Map<String, Integer> getConsumerGroupResults(String bootstrapServers) {
         Map<String, Integer> consumerGroupsResultsFinal = null;
 
         try {
@@ -157,7 +158,7 @@ public class ConsumerGroupExtractor {
 
             adminClient.close();
 
-        } catch (InterruptedException | ExecutionException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e.getMessage(), e);
         }
 

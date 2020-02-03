@@ -13,6 +13,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import picocli.CommandLine;
 import picocli.CommandLine.Option;
+
+import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
@@ -57,8 +59,8 @@ public class ConsumerGroupExporter implements Runnable {
                 }
 
                 Thread.sleep(5000);
-            } catch (ExecutionException | InterruptedException e) {
-                e.printStackTrace();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
             }
         }
     }
@@ -70,6 +72,11 @@ public class ConsumerGroupExporter implements Runnable {
      * @param args The args passed through the command line that picocli will parse.
      */
     public static void main(String[] args) {
-        new CommandLine(new ConsumerGroupExporter()).parseWithHandler(new CommandLine.RunLast(), System.err, args);
+        try {
+            new CommandLine(new ConsumerGroupExporter()).parseWithHandler(new CommandLine.RunLast(), System.err, args);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
     }
 }
