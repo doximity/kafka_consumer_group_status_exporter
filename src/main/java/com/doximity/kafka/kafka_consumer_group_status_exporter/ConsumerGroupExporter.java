@@ -1,4 +1,4 @@
-package com.doximity.kafka.kafka_status_exporter;
+package com.doximity.kafka.kafka_consumer_group_status_exporter;
 
 /*
  * Entry point for this project.
@@ -6,7 +6,7 @@ package com.doximity.kafka.kafka_status_exporter;
  * @author Dennis Bielinski
  */
 
-import com.doximity.kafka.kafka_status_exporter.Instrumentation.ConsumerGroupExtractor;
+import com.doximity.kafka.kafka_consumer_group_status_exporter.Instrumentation.ConsumerGroupExtractor;
 import io.prometheus.client.Gauge;
 import io.prometheus.client.exporter.HTTPServer;
 import org.slf4j.Logger;
@@ -14,9 +14,7 @@ import org.slf4j.LoggerFactory;
 import picocli.CommandLine;
 import picocli.CommandLine.Option;
 
-import java.io.IOException;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
 
 @CommandLine.Command(name = "ConsumerGroupExporter")
 public class ConsumerGroupExporter implements Runnable {

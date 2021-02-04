@@ -8,7 +8,7 @@
     </properties>
 
     <groupId>com.doximity.kafka</groupId>
-    <artifactId>kafka_status_exporter</artifactId>
+    <artifactId>kafka_consumer_group_status_exporter</artifactId>
     <version>0.3.0</version>
     <build>
         <plugins>
@@ -26,7 +26,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>com.doximity.kafka.kafka_status_exporter.ConsumerGroupExporter</mainClass>
+                            <mainClass>com.doximity.kafka.kafka_consumer_group_status_exporter.ConsumerGroupExporter</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

@@ -1,4 +1,4 @@
-package com.doximity.kafka.kafka_status_exporter;
+package com.doximity.kafka.kafka_consumer_group_status_exporter;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
