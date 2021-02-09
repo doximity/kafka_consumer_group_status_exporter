@@ -1,13 +1,17 @@
 # kafka_consumer_group_status_exporter
 Kafka Consumer Group status exporter for Prometheus.
 
+### Compatibility
+
+Java 1.8 is required to run the exporter.
+
+Supports [Apache Kafka](https://kafka.apache.org/) 2.1 or later.
+
 ### Compiling
 
 This uses Maven, so you would simply compile this by doing this at the root of the project: `mvn clean package`
 
 ### Running
-
-Currently only Java 1.8 is supported. To run this, you would do the following:
 
 ```
 java -jar kafka_consumer_group_status_exporter-0.3.0-jar-with-dependencies.jar --bootstrap-servers=<kafka-hostname>:9092 --port <port>
