@@ -1,6 +1,6 @@
-package com.doximity.kafka.kafka_status_exporter;
+package com.doximity.kafka.kafka_consumer_group_status_exporter;
 
-import com.doximity.kafka.kafka_status_exporter.Instrumentation.ConsumerGroupExtractor;
+import com.doximity.kafka.kafka_consumer_group_status_exporter.Instrumentation.ConsumerGroupExtractor;
 import com.salesforce.kafka.test.KafkaTestUtils;
 import com.salesforce.kafka.test.junit5.SharedKafkaTestResource;
 import io.prometheus.client.Gauge;

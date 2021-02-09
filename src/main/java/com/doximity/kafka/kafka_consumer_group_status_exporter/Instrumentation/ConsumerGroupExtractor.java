@@ -1,4 +1,4 @@
-package com.doximity.kafka.kafka_status_exporter.Instrumentation;
+package com.doximity.kafka.kafka_consumer_group_status_exporter.Instrumentation;
 
 /*
  * Consumer Group extraction / instrumentation.
@@ -14,7 +14,6 @@ import org.apache.kafka.clients.admin.ListConsumerGroupsResult;
 import org.apache.kafka.common.ConsumerGroupState;
 import org.apache.kafka.common.KafkaFuture;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
