@@ -3,8 +3,8 @@ Kafka Consumer Group status exporter for Prometheus.
 
 Can be used to track the current consumer group status & rebalances of your consumer groups over time. Examples:
 
-![](https://github.com/doximity/kafka_consumer_group_status_exporter/cg-status-over-time-example.png)
-![](https://github.com/doximity/kafka_consumer_group_status_exporter/current-CG-status-example.png)
+![](cg-status-over-time-example.png)
+![](current-CG-status-example.png)
 
 ## Compatibility
 
